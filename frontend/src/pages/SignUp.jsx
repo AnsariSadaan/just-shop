@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import loginIcon from '../assets/signin.gif'
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import imageTobase64 from '../helpers/imageTobase64';
+import summaryApi from '../utils/backendDomain';
+import { toast } from 'react-toastify';
 
 
 const SignUp = () => {
@@ -16,7 +18,7 @@ const SignUp = () => {
         confirmPassword: "",
         profilePic: ""
     })
-
+    const navigate = useNavigate();
     const handleOnChange = (e) => {
         const { name, value } = e.target
         setData((prev) => {
@@ -31,7 +33,6 @@ const SignUp = () => {
     const handleUploadPic = async (e) => {
         const file = e.target.files[0];
         const imagePic = await imageTobase64(file)
-        console.log("imagePic", imagePic);
         setData((prev)=> {
             return {
                 ...prev,
@@ -41,11 +42,33 @@ const SignUp = () => {
     }
 
     
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-    }
 
-    console.log("data login", data)
+        if(data.password === data.confirmPassword){
+            const dataResponse = await fetch(summaryApi.signUp.url, {
+                method: summaryApi.signUp.method,
+                headers: {
+                    'content-type': "application/json",
+                },
+                body: JSON.stringify(data)
+
+            });
+            const dataApi = await dataResponse.json()
+
+            if(dataApi.success){
+                toast.success(dataApi.message)
+                navigate('/login');
+            }
+
+            if(dataApi.error){
+                toast.error(dataApi.error);
+            }
+        }else{
+            console.log("passowrd and confirm password is not same")
+        }
+    }
+    
     return (
         <section id='signup'>
             <div className='mx-auto container p-4'>
@@ -71,7 +94,7 @@ const SignUp = () => {
                                     name='name'
                                     value={data.name}
                                     onChange={handleOnChange}
-                                    className='w-full h-full outline-none bg-transparent' required />
+                                    className='w-full h-full outline-none bg-transparent' />
                             </div>
                         </div>
                         <div className='grid'>
@@ -83,7 +106,7 @@ const SignUp = () => {
                                     name='email'
                                     value={data.email}
                                     onChange={handleOnChange}
-                                    className='w-full h-full outline-none bg-transparent' required />
+                                    className='w-full h-full outline-none bg-transparent' />
                             </div>
                         </div>
                         <div>
@@ -95,7 +118,7 @@ const SignUp = () => {
                                     value={data.password}
                                     name='password'
                                     onChange={handleOnChange}
-                                    className='w-full h-full outline-none bg-transparent' required />
+                                    className='w-full h-full outline-none bg-transparent'  />
                                 <div className='cursor-pointer text-xl' onClick={() => setShowPassword((prev) => !prev)} >
                                     <span>
                                         {showPassword ? (<FaEyeSlash />) : (<FaEye />)}
@@ -113,7 +136,7 @@ const SignUp = () => {
                                     value={data.confirmPassword}
                                     name='confirmPassword'
                                     onChange={handleOnChange}
-                                    className='w-full h-full outline-none bg-transparent' required />
+                                    className='w-full h-full outline-none bg-transparent' />
                                 <div className='cursor-pointer text-xl' onClick={() => setShowConfirmPassword((prev) => !prev)} >
                                     <span>
                                         {showConfirmPassword ? (<FaEyeSlash />) : (<FaEye />)}
