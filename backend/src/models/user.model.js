@@ -18,9 +18,8 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: [true, "Password is required"],
     },
-    avatar: {
+    profilePic: {
         type: String,
-        required: true,
     }
 }, { timestamps: true })
 
