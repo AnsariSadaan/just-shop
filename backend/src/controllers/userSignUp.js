@@ -1,7 +1,7 @@
 import { User } from "../models/user.model.js";
 import bcryptjs from 'bcryptjs';
 
-const useSignUpController = async (req, res)=> {
+const userSignUpController = async (req, res)=> {
     try{
         const {name, email, password} = req.body;
         // console.log("req.body", req.body);
@@ -28,7 +28,8 @@ const useSignUpController = async (req, res)=> {
         const salt = bcryptjs.genSaltSync(10);
         const hashPassword = bcryptjs.hashSync(password, salt);
         if(!hashPassword){
-            throw new Error("Something is wrong");
+            // throw new Error("Something is wrong");
+            res.status(500).json({error: "Something is wrong"});
         }
         const payload = {
             ...req.body,
@@ -52,4 +53,4 @@ const useSignUpController = async (req, res)=> {
     }
 }
 
-export default useSignUpController;
+export default userSignUpController;
