@@ -1,17 +1,42 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Logo from './Logo'
 import { CgSearch } from "react-icons/cg";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoCartOutline } from "react-icons/io5";
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import summaryApi from '../utils/backendDomain';
+import { toast } from 'react-toastify';
+import { setUserDetails } from '../utils/store/userSlice';
 
 
 const Header = () => {
+    const user = useSelector(state => state?.user?.user)
+    const dispatch = useDispatch();
+    const [menuDisplay, setMenuDisplay] = useState(false);
+    console.log("user details", user);
+
+
+    const handleLogout = async () => {
+        const fetchData = await fetch(summaryApi.logout_user.url, {
+            method: summaryApi.logout_user.method,
+            credentials: 'include'
+        });
+        const data = await fetchData.json()
+        if (data.success) {
+            toast.success(data.message);
+            dispatch(setUserDetails(null))
+        }
+        if (data.error) {
+            toast.error(data.message)
+        }
+    }
     return (
-        <header className='h-16 shadow-md bg-white'>
+        <header className='h-20 shadow-md bg-white'>
             <div className='h-full container mx-auto flex items-center px-4 justify-between'>
                 <div className=''>
-                    <Link to={"/"}><Logo w={90} h={50} /></Link>
+                    {/* <Link to={"/"}><Logo w={90} h={50} /></Link> */}
+                    <Link to={'/'}><img src='../public/justshoplogo.png' className='w-35 h-12' /></Link>
                 </div>
 
                 <div className='hidden lg:flex justify-between w-full items-center max-w-sm border rounded-full focus-within:shadow pl-3'>
@@ -22,8 +47,22 @@ const Header = () => {
                 </div>
 
                 <div className='flex items-center justify-center gap-7'>
-                    <div className='text-3xl cursor-pointer'>
-                        <FaRegCircleUser />
+                    <div className='relative flex justify-center'>
+                        <div className='text-3xl cursor-pointer flex justify-center' onClick={()=> setMenuDisplay(prev => !prev)}>
+                            {
+                                user?.profilePic ? (<img src={user?.profilePic} className='w-12 h-12 rounded-full' alt={user?.name} />) : (<FaRegCircleUser />)
+                            }
+                        </div>
+                        {
+                            menuDisplay && (
+                                <div className='absolute bg-white bottom-0 top-7 h-fit p-2 shadow-lg rounded'>
+                                    <nav>
+                                        <Link to={'admin-panel'} className='whitespace-nowrap hidden lg:block hover:bg-slate-200 p-2' onClick={() => setMenuDisplay(prev => !prev)}>Admin Panel</Link>
+                                    </nav>
+                                </div>
+                            )
+                        }
+                        
                     </div>
 
                     <div className='text-3xl cursor-pointer relative'>
@@ -34,7 +73,13 @@ const Header = () => {
                     </div>
 
                     <div>
-                        <Link to={"/login"} className='px-3 py-1 text-black text-xl hover:text-white hover:bg-black outline rounded-full'>Login</Link>
+                        {
+                            user?._id ? (
+                                <button onClick={handleLogout} className='px-3 py-1 text-black text-xl hover:text-white hover:bg-black outline rounded-full' >Logout</button>
+                            ) : (
+                                <Link to={"/login"} className='px-3 py-1 text-black text-xl hover:text-white hover:bg-black outline rounded-full'>Login</Link>
+                            )
+                        }
                     </div>
                 </div>
             </div>
