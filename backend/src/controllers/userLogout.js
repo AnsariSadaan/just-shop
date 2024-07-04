@@ -9,7 +9,7 @@ const userLogout = async (req, res)=> {
 
         })
     } catch (err) {
-        err.status(400).json({
+        res.status(400).json({
             message: err.message || err,
             error: true,
             success: false

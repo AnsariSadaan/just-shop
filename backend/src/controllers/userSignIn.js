@@ -19,7 +19,7 @@ const userSignInController = async (req, res)=> {
             return res.status(422).json({ message: "User not found", error: true })
         }
         const checkPassword = await bcrypt.compare(password, user.password); 
-        console.log("checkPassword", checkPassword);
+        // console.log("checkPassword", checkPassword);
 
         if(checkPassword){
             const tokenData = {
