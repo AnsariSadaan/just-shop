@@ -65,7 +65,7 @@ const SignUp = () => {
                 toast.error(dataApi.error);
             }
         }else{
-            console.log("passowrd and confirm password is not same")
+            toast.error("passowrd and confirm password is not same");
         }
     }
     
