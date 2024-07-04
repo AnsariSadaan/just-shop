@@ -8,14 +8,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import summaryApi from '../utils/backendDomain';
 import { toast } from 'react-toastify';
 import { setUserDetails } from '../utils/store/userSlice';
+import ROLE from '../utils/role';
 
 
 const Header = () => {
     const user = useSelector(state => state?.user?.user)
     const dispatch = useDispatch();
     const [menuDisplay, setMenuDisplay] = useState(false);
-    console.log("user details", user);
-
 
     const handleLogout = async () => {
         const fetchData = await fetch(summaryApi.logout_user.url, {
@@ -36,7 +35,7 @@ const Header = () => {
             <div className='h-full container mx-auto flex items-center px-4 justify-between'>
                 <div className=''>
                     {/* <Link to={"/"}><Logo w={90} h={50} /></Link> */}
-                    <Link to={'/'}><img src='../public/justshoplogo.png' className='w-35 h-12' /></Link>
+                    <Link to={'/'}><img src='/justshoplogo.png' className='w-35 h-12' /></Link>
                 </div>
 
                 <div className='hidden lg:flex justify-between w-full items-center max-w-sm border rounded-full focus-within:shadow pl-3'>
@@ -48,16 +47,25 @@ const Header = () => {
 
                 <div className='flex items-center justify-center gap-7'>
                     <div className='relative flex justify-center'>
-                        <div className='text-3xl cursor-pointer flex justify-center' onClick={()=> setMenuDisplay(prev => !prev)}>
-                            {
-                                user?.profilePic ? (<img src={user?.profilePic} className='w-12 h-12 rounded-full' alt={user?.name} />) : (<FaRegCircleUser />)
-                            }
-                        </div>
+                        {
+                            user?._id && (
+                                <div className='text-3xl cursor-pointer flex justify-center' onClick={() => setMenuDisplay(prev => !prev)}>
+                                    {
+                                        user?.profilePic ? (<img src={user?.profilePic} className='w-12 h-12 rounded-full' alt={user?.name} />) : (<FaRegCircleUser />)
+                                    }
+                                </div>
+                            )
+                        }
+                        
                         {
                             menuDisplay && (
                                 <div className='absolute bg-white bottom-0 top-7 h-fit p-2 shadow-lg rounded'>
                                     <nav>
-                                        <Link to={'admin-panel'} className='whitespace-nowrap hidden lg:block hover:bg-slate-200 p-2' onClick={() => setMenuDisplay(prev => !prev)}>Admin Panel</Link>
+                                        {
+                                            user?.role === ROLE.ADMIN && (
+                                                <Link to={'/admin-panel/all-products'} className='whitespace-nowrap hidden lg:block hover:bg-slate-200 p-2' onClick={() => setMenuDisplay(prev => !prev)}>Admin Panel</Link>
+                                            )
+                                        }
                                     </nav>
                                 </div>
                             )
