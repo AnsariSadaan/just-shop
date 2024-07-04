@@ -11,8 +11,6 @@ const authToken = async (req, res, next) => {
         }
 
         jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, decoded) => {
-            console.log(err)
-            console.log("decode", decoded);
             if(err){
                 console.log("error auth", err)
             }
