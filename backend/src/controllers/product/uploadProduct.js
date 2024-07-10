@@ -1,10 +1,10 @@
-import uploadProductPermission from "../helper/Permission.js";
-import { Product } from "../models/product.model.js";
+import uploadProductPermission from "../../helper/Permission.js";
+import { Product } from "../../models/product.model.js";
 
 const uploadProductController = async (req, res) => {
     try {
         const sessionUserId = req.userId
-        if(!uploadProductPermission(sessionUserId)){
+        if (!uploadProductPermission(sessionUserId)) {
             throw new Error("Permission Denied")
         }
         const uploadProduct = new Product(req.body)

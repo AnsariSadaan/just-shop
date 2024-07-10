@@ -1,13 +1,13 @@
-import uploadProductPermission from "../helper/Permission.js"
-import { Product } from "../models/product.model.js"
+import uploadProductPermission from "../../helper/Permission.js"
+import { Product } from "../../models/product.model.js"
 
-const updateProductController = async (req, res)=> {
+const updateProductController = async (req, res) => {
     try {
         if (!uploadProductPermission(req.userId)) {
             throw new Error("Permission Denied")
         }
 
-        const {_id, ...resBody} = req.body
+        const { _id, ...resBody } = req.body
 
         const updateProduct = await Product.findByIdAndUpdate(_id, resBody)
         res.json({

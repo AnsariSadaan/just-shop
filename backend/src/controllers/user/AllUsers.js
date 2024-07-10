@@ -1,4 +1,4 @@
-import {User} from '../models/user.model.js'
+import {User} from '../../models/user.model.js'
 const AllUsers = async (req,res)=> {
     try {
         console.log('userId', req.userId)

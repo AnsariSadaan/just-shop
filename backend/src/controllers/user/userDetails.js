@@ -1,5 +1,5 @@
-import { User } from "../models/user.model.js";
-const userDetailsController = async (req, res)=> {
+import { User } from "../../models/user.model.js";
+const userDetailsController = async (req, res) => {
     try {
         const user = await User.findById(req.userId)
         res.status(200).json({

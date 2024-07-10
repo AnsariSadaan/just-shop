@@ -1,14 +1,14 @@
-import { User } from "../models/user.model.js"
+import { User } from "../../models/user.model.js"
 
-const UpdateUserRole = async (req, res)=> {
+const UpdateUserRole = async (req, res) => {
     try {
 
         const sessionUser = req.userId
 
-        const {userId, email, name, role} = req.body
+        const { userId, email, name, role } = req.body
         const payload = {
-            ...(email && {email:email}),
-            ...(name && {name:name}),
+            ...(email && { email: email }),
+            ...(name && { name: name }),
             ...(role && { role: role })
         }
 

@@ -1,8 +1,8 @@
-import { Product } from "../models/product.model.js"
+import { Product } from "../../models/product.model.js"
 
-const getProductController = async (req, res)=> {
+const getProductController = async (req, res) => {
     try {
-        const allProduct = await Product.find().sort({createdAt: -1})
+        const allProduct = await Product.find().sort({ createdAt: -1 })
 
         res.json({
             message: "All Product",
