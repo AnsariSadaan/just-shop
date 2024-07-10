@@ -1,4 +1,4 @@
-import { Product } from "../models/product.medel.js"
+import { Product } from "../models/product.model.js"
 
 const getProductController = async (req, res)=> {
     try {
