@@ -6,17 +6,19 @@ import uploadImage from '../helpers/uploadImage';
 import DisplayImage from './DisplayImage';
 import { MdDelete } from "react-icons/md";
 import summaryApi from '../utils/backendDomain';
-import {toast} from 'react-toastify';
+import { toast } from 'react-toastify';
 
-const UploadProduct = ({ onClose, fetchData }) => {
+const AdminEditProduct = ({ onClose, productData, fetchData }) => {
+
     const [data, setData] = useState({
-        productName: "",
-        brandName: "",
-        category: "",
-        productImage: [],
-        description: "",
-        price: "",
-        sellingPrice: ""
+        ...productData,
+        productName: productData?.productName,
+        brandName: productData?.brandName,
+        category: productData?.category,
+        productImage: productData?.productImage || [] ,
+        description: productData?.description,
+        price: productData?.price,
+        sellingPrice: productData?.sellingPrice
     })
     const [openFullScreenImg, setOpenFullScreenImg] = useState(false)
     const [fullScreenImg, setFullScreenImg] = useState("");
@@ -57,24 +59,24 @@ const UploadProduct = ({ onClose, fetchData }) => {
     }
 
     // upload product
-    const handleSubmit = async (e)=> {
+    const handleSubmit = async (e) => {
         e.preventDefault()
-        const dataResopnse = await fetch(summaryApi.uploadProduct.url, {
-            method: summaryApi.uploadProduct.method,
+        const dataResopnse = await fetch(summaryApi.updateProduct.url, {
+            method: summaryApi.updateProduct.method,
             credentials: "include",
-            headers : {
-                "content-type" : "application/json"
+            headers: {
+                "content-type": "application/json"
             },
-            body : JSON.stringify(data)
-        }) 
+            body: JSON.stringify(data)
+        })
         const uploadData = await dataResopnse.json();
-        if(uploadData.success){
+        if (uploadData.success) {
             toast.success(uploadData?.message);
             onClose();
             fetchData();
         }
 
-        if(uploadData.error){
+        if (uploadData.error) {
             toast.error(uploadData?.message)
         }
     }
@@ -83,7 +85,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
         <div className='fixed w-full h-full top-0 left-0 bottom-0 right-0 bg-slate-200 bg-opacity-30 flex justify-center items-center'>
             <div className='bg-white p-4 rounded w-full max-w-2xl h-full max-h-[80%] overflow-hidden'>
                 <div className='flex justify-between items-center pb-3'>
-                    <h2 className='font-bold text-lg'>Upload Product</h2>
+                    <h2 className='font-bold text-lg'>Edit Product</h2>
                     <div className='w-fit ml-auto text-2xl cursor-pointer' onClick={onClose}>
                         <CgClose />
                     </div>
@@ -112,7 +114,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
                     />
 
                     <label htmlFor="category" className='mt-3'>Category :</label>
-                    <select value={data.category} name='category' onChange={handleOnChange} className='bg-slate-100 p-2 border rounded'>
+                    <select  value={data.category} name='category' onChange={handleOnChange} className='bg-slate-100 p-2 border rounded'>
                         <option value="">Select Category</option>
                         {
                             productCategory.map((elem, index) => {
@@ -126,7 +128,7 @@ const UploadProduct = ({ onClose, fetchData }) => {
                             <div className='text-slate-500 flex justify-center items-center flex-col gap-2'>
                                 <span className='text-4xl'><FaCloudUploadAlt /></span>
                                 <p className='text-sm'>Upload Product Image</p>
-                                <input type="file"  id="uploadImageInput" className='hidden' onChange={handleUploadProduct} />
+                                <input type="file" id="uploadImageInput"  className='hidden' onChange={handleUploadProduct} />
                             </div>
                         </div>
                     </label>
@@ -186,16 +188,16 @@ const UploadProduct = ({ onClose, fetchData }) => {
                     />
 
                     <label htmlFor="description" className='mt-3'>Description :</label>
-                    <textarea 
-                    className='bg-slate-100 p-2 border rounded resize-none h-28' 
-                    placeholder='enter description' 
-                    rows={3}
-                    value={data.description}
-                    onChange={handleOnChange}
-                    name='description'
-                    id='description' 
+                    <textarea
+                        className='bg-slate-100 p-2 border rounded resize-none h-28'
+                        placeholder='enter description'
+                        rows={3}
+                        value={data.description}
+                        onChange={handleOnChange}
+                        name='description'
+                        id='description'
                     ></textarea>
-                    <button className='px-3 py-2 bg-slate-100 text-black hover:bg-black hover:text-white rounded mb-10'>Upload Product</button>
+                    <button className='px-3 py-2 bg-slate-100 text-black hover:bg-black hover:text-white rounded mb-10'>Update Product</button>
                 </form>
             </div>
 
@@ -209,4 +211,4 @@ const UploadProduct = ({ onClose, fetchData }) => {
     )
 }
 
-export default UploadProduct
+export default AdminEditProduct
