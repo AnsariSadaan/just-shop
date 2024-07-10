@@ -6,6 +6,9 @@ import authToken from '../middlewares/authToken.js';
 import userLogout from '../controllers/userLogout.js';
 import AllUsers from '../controllers/AllUsers.js';
 import UpdateUserRole from '../controllers/UpdateUserRole.js';
+import uploadProductController from '../controllers/uploadProduct.js';
+import getProductController from '../controllers/getProduct.js';
+import updateProductController from '../controllers/updateProduct.js';
 
 
 const router = express.Router();
@@ -17,4 +20,12 @@ router.get('/userLogout', userLogout);
 // admin panel 
 router.get('/all-users',authToken, AllUsers);
 router.post('/update-user', authToken, UpdateUserRole)
+
+
+//Product
+router.post('/upload-product', authToken, uploadProductController);
+
+//get product 
+router.get('/get-product', getProductController);
+router.post('/update-product', authToken, updateProductController);
 export default router;
