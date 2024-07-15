@@ -9,9 +9,9 @@ import uploadProductController from '../controllers/product/uploadProduct.js';
 import getProductController from '../controllers/product/getProduct.js';
 import updateProductController from '../controllers/product/updateProduct.js';
 import AllUsers from '../controllers/user/AllUsers.js';
-import categoryProductController from '../controllers/product/getSingleCtaegoryProduct.js';
 import categoryWiseProductController from '../controllers/product/getCategoryWiseProduct.js';
 import getProductDetailsController from '../controllers/product/getProductDetails.js';
+import categoryProductController from '../controllers/product/getSingleCategoryProduct.js';
 
 
 
