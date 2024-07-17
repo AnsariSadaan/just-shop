@@ -1,14 +1,21 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import FetchCategoryWiseProduct from '../helpers/FetchCategoryWiseProduct';
 import displayINRCurrency from '../helpers/displayCurrency';
 import { GrNext, GrPrevious } from 'react-icons/gr';
 import { Link } from 'react-router-dom';
 import addToCart from '../helpers/addToCart';
+import Context from '../context/userContext';
 
 const CategoryWiseProductDisplay = ({ category, heading }) => {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false);
     const loadingList = new Array(13).fill(null)
+    const { fetchUserAddToCart } = useContext(Context)
+
+    const handleAddToCart = async (e, id)=> {
+        await addToCart(e, id) 
+        fetchUserAddToCart() 
+    }
 
     const fetchData = async () => {
         setLoading(true);
@@ -62,7 +69,7 @@ const CategoryWiseProductDisplay = ({ category, heading }) => {
                                             <p className='font-medium text-black'>{displayINRCurrency(product?.sellingPrice)}</p>
                                             <p className='line-through text-slate-500'>{displayINRCurrency(product?.price)}</p>
                                         </div>
-                                        <button className='text-sm bg-black text-white hover:bg-slate-200 hover:text-black px-3 py-0.5 rounded-full' onClick={(e) => addToCart(e, product?._id)}>Add to Cart</button>
+                                        <button className='text-sm bg-black text-white hover:bg-slate-200 hover:text-black px-3 py-0.5 rounded-full' onClick={(e)=>handleAddToCart(e,product?._id)}>Add to Cart</button>
                                     </div>
                                 </Link>
                             )

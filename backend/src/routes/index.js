@@ -13,6 +13,7 @@ import categoryWiseProductController from '../controllers/product/getCategoryWis
 import getProductDetailsController from '../controllers/product/getProductDetails.js';
 import categoryProductController from '../controllers/product/getSingleCategoryProduct.js';
 import addToCartController from '../controllers/user/addToCart.js';
+import countAddToCartProduct from '../controllers/user/countAddToCartProduct.js';
 
 
 
@@ -44,5 +45,6 @@ router.post('/product-details', getProductDetailsController);
 
 //user add to cart
 router.post('/addtocart', authToken ,addToCartController);
+router.get('/countAddToCartProduct', authToken, countAddToCartProduct);
 
 export default router;

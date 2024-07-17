@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Logo from './Logo'
 import { CgSearch } from "react-icons/cg";
 import { FaRegCircleUser } from "react-icons/fa6";
@@ -9,12 +9,14 @@ import summaryApi from '../utils/backendDomain';
 import { toast } from 'react-toastify';
 import { setUserDetails } from '../utils/store/userSlice';
 import ROLE from '../utils/role';
+import Context from '../context/userContext';
 
 
 const Header = () => {
     const user = useSelector(state => state?.user?.user)
     const dispatch = useDispatch();
     const [menuDisplay, setMenuDisplay] = useState(false);
+    const { cartProductCount } = useContext(Context)
 
     const handleLogout = async () => {
         const fetchData = await fetch(summaryApi.logout_user.url, {
@@ -30,6 +32,8 @@ const Header = () => {
             toast.error(data.message)
         }
     }
+
+    console.log("header add to cart count", cartProductCount)
     return (
         <header className='h-16 shadow-md bg-white fixed w-full z-10'>
             <div className='h-full container mx-auto flex items-center px-4 justify-between'>
@@ -56,7 +60,7 @@ const Header = () => {
                                 </div>
                             )
                         }
-                        
+
                         {
                             menuDisplay && (
                                 <div className='absolute bg-white bottom-0 top-7 h-fit p-2 shadow-lg rounded'>
@@ -70,16 +74,19 @@ const Header = () => {
                                 </div>
                             )
                         }
-                        
+
                     </div>
 
-                    <div className='text-3xl cursor-pointer relative'>
-                        <span><IoCartOutline /></span>
-                        <div className='bg-black text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
-                            <p className='text-sm'>2</p>
-                        </div>
-                    </div>
-
+                    {
+                        user?._id && (
+                            <div className='text-3xl cursor-pointer relative'>
+                                <span><IoCartOutline /></span>
+                                <div className='bg-black text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
+                                    <p className='text-sm'>{cartProductCount}</p>
+                                </div>
+                            </div>
+                        )
+                    }
                     <div>
                         {
                             user?._id ? (

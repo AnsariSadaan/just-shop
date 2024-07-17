@@ -20,7 +20,7 @@ const summaryApi = {
     allUser: {
         url: `${backendDomain}/api/all-users`,
         method: "get"
-    },  
+    },
     updateUser: {
         url: `${backendDomain}/api/update-user`,
         method: "post"
@@ -28,7 +28,7 @@ const summaryApi = {
     uploadProduct: {
         url: `${backendDomain}/api/upload-product`,
         method: "post"
-    }, 
+    },
     AllProduct: {
         url: `${backendDomain}/api/get-product`,
         method: "get"
@@ -37,7 +37,7 @@ const summaryApi = {
         url: `${backendDomain}/api/update-product`,
         method: 'post'
     },
-    categoryProduct : {
+    categoryProduct: {
         url: `${backendDomain}/api/get-categoryProduct`,
         method: 'get'
     },
@@ -48,6 +48,14 @@ const summaryApi = {
     productDeatils: {
         url: `${backendDomain}/api/product-details`,
         method: "post"
+    },
+    addToCartProduct: {
+        url: `${backendDomain}/api/addtocart`,
+        method: "post"
+    },
+    addToCartProductCount: {
+        url: `${backendDomain}/api/countAddToCartProduct`,
+        method: 'get' 
     }
 }
 
