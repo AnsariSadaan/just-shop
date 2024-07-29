@@ -79,12 +79,12 @@ const Header = () => {
 
                     {
                         user?._id && (
-                            <div className='text-3xl cursor-pointer relative'>
+                            <Link to={'/cart'} className='text-3xl cursor-pointer relative'>
                                 <span><IoCartOutline /></span>
                                 <div className='bg-black text-white w-5 h-5 rounded-full p-1 flex items-center justify-center absolute -top-2 -right-3'>
                                     <p className='text-sm'>{cartProductCount}</p>
                                 </div>
-                            </div>
+                            </Link>
                         )
                     }
                     <div>

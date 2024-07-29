@@ -139,7 +139,7 @@ const AdminEditProduct = ({ onClose, productData, fetchData }) => {
                                     {
                                         data.productImage.map((elem, index) => {
                                             return (
-                                                <div className='relative group'>
+                                                <div className='relative group' key={index}>
                                                     <img
                                                         src={elem}
                                                         alt={elem}

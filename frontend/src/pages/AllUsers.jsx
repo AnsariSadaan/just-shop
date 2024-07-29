@@ -46,8 +46,7 @@ const AllUsers = () => {
                     {
                         allUsers.map((elem, index) => {
                             return (
-                                <>
-                                    <tr>
+                                    <tr key={elem._id}>
                                         <td>{index + 1}</td>
                                         <td>{elem?.name}</td>
                                         <td>{elem?.email}</td>
@@ -61,7 +60,6 @@ const AllUsers = () => {
                                         
                                         ><MdModeEdit /></button></td>
                                     </tr>
-                                </>
                             )
                         })
                     }

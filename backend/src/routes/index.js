@@ -14,6 +14,9 @@ import getProductDetailsController from '../controllers/product/getProductDetail
 import categoryProductController from '../controllers/product/getSingleCategoryProduct.js';
 import addToCartController from '../controllers/user/addToCart.js';
 import countAddToCartProduct from '../controllers/user/countAddToCartProduct.js';
+import addToCartViewProductController from '../controllers/product/addToCartViewProduct.js';
+import updateAddToCartController from '../controllers/user/updateAddToCart.js';
+import deleteCartProductController from '../controllers/user/deleteCartProduct.js';
 
 
 
@@ -34,17 +37,16 @@ router.post('/upload-product', authToken, uploadProductController);
 //get product 
 router.get('/get-product', getProductController);
 router.post('/update-product', authToken, updateProductController);
-
 router.get('/get-categoryProduct', categoryProductController);
 
 // get category wise Product
 router.post('/category-product', categoryWiseProductController);
-
-
 router.post('/product-details', getProductDetailsController);
 
 //user add to cart
 router.post('/addtocart', authToken ,addToCartController);
 router.get('/countAddToCartProduct', authToken, countAddToCartProduct);
-
+router.get('/view-cart-product', authToken, addToCartViewProductController);
+router.post('/update-cart-product', authToken, updateAddToCartController);
+router.post('/delete-cart-product', authToken, deleteCartProductController);
 export default router;
