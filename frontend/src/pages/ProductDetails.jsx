@@ -5,6 +5,7 @@ import { FaStar } from "react-icons/fa";
 import { FaStarHalfAlt } from "react-icons/fa";
 import displayINRCurrency from '../helpers/displayCurrency';
 import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay';
+import addToCart from '../helpers/addToCart';
 
 const ProductDetails = () => {
     const [data, setData] = useState({
@@ -49,7 +50,7 @@ const ProductDetails = () => {
 
     useEffect(() => {
         fetchProductDetails()
-    }, [])
+    }, [params])
 
     const handleMouseEnterProduct = (imgURL) => {
         setActiveImage(imgURL)
@@ -71,6 +72,11 @@ const ProductDetails = () => {
 
     const handleLeaveImageZoom = () => {
         setZoomImage(false)
+    }
+
+    const handleAddToCart = async (e, id) => {
+        await addToCart(e, id)
+        fetchUserAddToCart()
     }
 
     return (
@@ -168,7 +174,7 @@ const ProductDetails = () => {
 
                             <div className='flex items-center gap-3 my-2'>
                                 <button className='border-2 rounded border-black px-3 py-1 min-w-[120px] hover:bg-black font-medium hover:text-white'>Buy</button>
-                                <button className='border-2 rounded border-black px-3 py-1 min-w-[120px] bg-black text-white hover:bg-white font-medium hover:text-black'>Add To Cart</button>
+                                <button className='border-2 rounded border-black px-3 py-1 min-w-[120px] bg-black text-white hover:bg-white font-medium hover:text-black' onClick={(e) => handleAddToCart(e, data?._id)}>Add To Cart</button>
                             </div>
                             <div>
                                 <p className='text-slate-600 font-medium my-1'>Description : </p>
@@ -180,7 +186,7 @@ const ProductDetails = () => {
             </div>
 
             {
-                data.category && (
+                data?.category && (
                     <CategoryWiseProductDisplay category={data?.category} heading={"Recommended Products"} />
                 )
             }
