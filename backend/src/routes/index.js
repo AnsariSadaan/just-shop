@@ -18,6 +18,7 @@ import addToCartViewProductController from '../controllers/product/addToCartView
 import updateAddToCartController from '../controllers/user/updateAddToCart.js';
 import deleteCartProductController from '../controllers/user/deleteCartProduct.js';
 import searchProductController from '../controllers/product/searchProduct.js';
+import filterProductController from '../controllers/product/filterProduct.js';
 
 
 
@@ -40,6 +41,7 @@ router.get('/get-product', getProductController);
 router.post('/update-product', authToken, updateProductController);
 router.get('/get-categoryProduct', categoryProductController);
 router.get('/search', searchProductController)
+router.post('/filter-product', filterProductController)
 
 // get category wise Product
 router.post('/category-product', categoryWiseProductController);
