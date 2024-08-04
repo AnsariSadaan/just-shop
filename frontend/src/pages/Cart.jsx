@@ -11,7 +11,7 @@ const Cart = () => {
     const loadingCart = new Array(context?.cartProductCount).fill(null);
 
     const fetchData = async () => {
-        setLoading(true);
+        
         const response = await fetch(summaryApi.addToCartProductView.url, {
             method: summaryApi.addToCartProductView.method,
             credentials: 'include',
@@ -19,15 +19,20 @@ const Cart = () => {
                 'content-type': 'application/json'
             },
         })
-        setLoading(false)
         const responseData = await response.json()
         if (responseData.success) {
             setData(responseData.data)
         }
     }
 
+    const handleLoading = async ()=> {
+        await fetchData()
+    }
+
     useEffect(() => {
-        fetchData();
+        setLoading(true);
+        handleLoading();
+        setLoading(false);
     }, [])
 
     const increaseQty = async (id, qty) => {
@@ -68,23 +73,53 @@ const Cart = () => {
         }
     }
 
+    // const deleteCartProduct = async (id) => {
+    //     const response = await fetch(summaryApi.deleteCartProduct.url, {
+    //         method: summaryApi.deleteCartProduct.method,
+    //         credentials: 'include',
+    //         headers: {
+    //             'content-type': "application/json"
+    //         },
+    //         body: JSON.stringify({
+    //             _id: id,
+    //         })
+    //     })
+    //     const responseData = await response.json()
+    //     if (responseData.success) {
+    //         fetchData()
+    //         context.fetchUserAddToCart()
+    //     }
+    // }
+
     const deleteCartProduct = async (id) => {
-        const response = await fetch(summaryApi.deleteCartProduct.url, {
-            method: summaryApi.deleteCartProduct.method,
-            credentials: 'include',
-            headers: {
-                'content-type': "application/json"
-            },
-            body: JSON.stringify({
-                _id: id,
-            })
-        })
-        const responseData = await response.json()
-        if (responseData.success) {
-            fetchData()
-            context.fetchUserAddToCart()
+        try {
+            const response = await fetch(summaryApi.deleteCartProduct.url, {
+                method: summaryApi.deleteCartProduct.method,
+                credentials: 'include',
+                headers: {
+                    'content-type': "application/json"
+                },
+                body: JSON.stringify({ _id: id })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error("Failed to delete the product:", errorData.message || "Unknown error");
+                return;
+            }
+
+            const responseData = await response.json();
+            if (responseData.success) {
+                fetchData();
+                context.fetchUserAddToCart();
+            } else {
+                console.error("Failed to delete the product:", responseData.message || "Unknown error");
+            }
+        } catch (error) {
+            console.error("An error occurred while deleting the product:", error);
         }
     }
+
 
     const totalQuantity = data.reduce((prev, curr) => prev + curr?.quantity, 0)
     const totalPrice = data.reduce((prev, curr) => prev + (curr?.quantity * curr?.productId?.sellingPrice), 0)
@@ -103,7 +138,7 @@ const Cart = () => {
                 <div className='w-full max-w-3xl'>
                     {
                         loading ? (
-                            loadingCart.map((el, index) => {
+                            loadingCart?.map((el, index) => {
                                 return <div key={el + "add to cart product" + index} className='w-full bg-slate-200 h-32 my-1 border border-slate-300 animate-pulse'>
 
                                 </div>
@@ -112,7 +147,7 @@ const Cart = () => {
                         ) : (
                             data.map((product, index) => {
                                 return (
-                                    <div key={product?._id + "add to cart product"} className='w-full bg-white h-32 my-2 border border-slate-300 grid grid-cols-[128px_1fr]'>
+                                    <div key={product?._id + "add to cart product"+ index} className='w-full bg-white h-32 my-2 border border-slate-300 grid grid-cols-[128px_1fr]'>
                                         <div className='w-32 h-32 bg-slate-200'>
                                             <img src={product?.productId?.productImage[0]} className="w-full h-full object-scale-down mix-blend-multiply" />
                                         </div>

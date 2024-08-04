@@ -1,11 +1,12 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import summaryApi from '../utils/backendDomain'
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FaStar } from "react-icons/fa";
 import { FaStarHalfAlt } from "react-icons/fa";
 import displayINRCurrency from '../helpers/displayCurrency';
 import CategoryWiseProductDisplay from '../components/CategoryWiseProductDisplay';
 import addToCart from '../helpers/addToCart';
+import Context from '../context/userContext';
 
 const ProductDetails = () => {
     const [data, setData] = useState({
@@ -17,17 +18,17 @@ const ProductDetails = () => {
         price: "",
         sellingPrice: "",
     })
-    const [loading, setLoading] = useState(false)
+    const params = useParams()
+    const [loading, setLoading] = useState(true)
+    const productImageListLoading = new Array(4).fill(null);
     const [activeImage, setActiveImage] = useState("")
     const [zoomImageCoordinate, setZoomImageCoordinate] = useState({
         x: 0,
         y: 0
     })
     const [zoomImage, setZoomImage] = useState(false)
-    const productImageListLoading = new Array(4).fill(null);
-    const params = useParams()
-
-    console.log("product is", params);
+    const { fetchUserAddToCart } = useContext(Context);
+    const navigate = useNavigate()
 
 
     const fetchProductDetails = async () => {
@@ -46,7 +47,6 @@ const ProductDetails = () => {
         setData(dataResponse?.data)
         setActiveImage(dataResponse?.data?.productImage[0])
     }
-    console.log("data", data)
 
     useEffect(() => {
         fetchProductDetails()
@@ -59,8 +59,6 @@ const ProductDetails = () => {
     const handleZoomImage = useCallback((e) => {
         setZoomImage(true)
         const { left, top, width, height } = e.target.getBoundingClientRect();
-        console.log("Coordinate", left, top, width, height)
-
         const x = (e.clientX - left) / width
         const y = (e.clientY - top) / height
         setZoomImageCoordinate({
@@ -77,6 +75,12 @@ const ProductDetails = () => {
     const handleAddToCart = async (e, id) => {
         await addToCart(e, id)
         fetchUserAddToCart()
+    }
+
+    const handleBuyProduct = async (e, id) => {
+        await addToCart(e, id)
+        fetchUserAddToCart()
+        navigate('/cart')
     }
 
     return (
@@ -109,9 +113,9 @@ const ProductDetails = () => {
                             loading ? (
                                 <div className='flex gap-3 lg:flex-col overflow-scroll scrollbar-none h-full'>
                                     {
-                                        productImageListLoading.map(el => {
+                                        productImageListLoading.map((el, index) => {
                                             return (
-                                                <div className='h-20 w-20 bg-slate-200 rounded animate-pulse' key={"loadingImage"}></div>
+                                                <div className='h-20 w-20 bg-slate-200 rounded animate-pulse' key={"loadingImage" + index}></div>
                                             )
                                         })
                                     }
@@ -173,7 +177,7 @@ const ProductDetails = () => {
                             </div>
 
                             <div className='flex items-center gap-3 my-2'>
-                                <button className='border-2 rounded border-black px-3 py-1 min-w-[120px] hover:bg-black font-medium hover:text-white'>Buy</button>
+                                <button className='border-2 rounded border-black px-3 py-1 min-w-[120px] hover:bg-black font-medium hover:text-white' onClick={(e)=>handleBuyProduct(e, data?._id)}>Buy</button>
                                 <button className='border-2 rounded border-black px-3 py-1 min-w-[120px] bg-black text-white hover:bg-white font-medium hover:text-black' onClick={(e) => handleAddToCart(e, data?._id)}>Add To Cart</button>
                             </div>
                             <div>
