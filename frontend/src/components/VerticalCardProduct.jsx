@@ -8,7 +8,7 @@ import Context from '../context/userContext';
 
 const VerticalCardProduct = ({ category, heading }) => {
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const loadingList = new Array(13).fill(null)
     const [scroll, setScroll] = useState(0)
     const scrollELement = useRef();
@@ -24,7 +24,7 @@ const VerticalCardProduct = ({ category, heading }) => {
         setLoading(true);
         const categoryProduct = await FetchCategoryWiseProduct(category)
         setLoading(false);
-        setData(categoryProduct.data)
+        setData(categoryProduct?.data)
     }
 
 
@@ -70,7 +70,7 @@ const VerticalCardProduct = ({ category, heading }) => {
                     ) : (
                         data.map((product, index) => {
                             return (
-                                <Link to={'/prodcut/'+ product?._id+index} key={product?._id} className='w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow'>
+                                <Link to={'/prodcut/'+product?._id} key={product?._id} className='w-full min-w-[280px] md:min-w-[320px] max-w-[280px] md:max-w-[320px] bg-white rounded-sm shadow'>
                                     <div className='bg-slate-200 h-48 p-4 min-w-[120px] md:min-w-[145px] flex justify-center items-center'>
                                         <img src={product?.productImage[0]} className='object-scale-down mix-blend-multiply h-full hover:scale-110' />
                                     </div>
