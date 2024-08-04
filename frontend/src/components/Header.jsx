@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import Logo from './Logo'
 import { CgSearch } from "react-icons/cg";
 import { FaRegCircleUser } from "react-icons/fa6";
 import { IoCartOutline } from "react-icons/io5";
@@ -19,8 +18,10 @@ const Header = () => {
     const { cartProductCount } = useContext(Context)
     const navigate = useNavigate();
     const searchInput = useLocation();
-    const [search, setsearch] = useState(searchInput?.search?.split("=")[1])
-    console.log("searchInput", searchInput?.search?.split("=")[1]);
+    const URLSearch = new URLSearchParams(searchInput?.search)
+    const searchQuery = URLSearch.getAll("q")
+    const [search, setsearch] = useState(searchQuery)
+
     const handleLogout = async () => {
         const fetchData = await fetch(summaryApi.logout_user.url, {
             method: summaryApi.logout_user.method,
@@ -30,6 +31,7 @@ const Header = () => {
         if (data.success) {
             toast.success(data.message);
             dispatch(setUserDetails(null))
+            navigate('/')
         }
         if (data.error) {
             toast.error(data.message)
