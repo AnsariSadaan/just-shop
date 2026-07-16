@@ -220,6 +220,6 @@ Add your LinkedIn profile here
 
 This project is licensed under the MIT License.
 
-⭐ Support
+## ⭐ Support
 If you found this project useful, please consider giving it a star on GitHub.
 For contributions, issues, or feature requests, feel free to open an issue or create a pull request.
