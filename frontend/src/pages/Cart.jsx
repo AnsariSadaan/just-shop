@@ -11,7 +11,7 @@ const Cart = () => {
     const loadingCart = new Array(context?.cartProductCount).fill(null);
 
     const fetchData = async () => {
-        
+
         const response = await fetch(summaryApi.addToCartProductView.url, {
             method: summaryApi.addToCartProductView.method,
             credentials: 'include',
@@ -25,7 +25,7 @@ const Cart = () => {
         }
     }
 
-    const handleLoading = async ()=> {
+    const handleLoading = async () => {
         await fetchData()
     }
 
@@ -73,24 +73,6 @@ const Cart = () => {
         }
     }
 
-    // const deleteCartProduct = async (id) => {
-    //     const response = await fetch(summaryApi.deleteCartProduct.url, {
-    //         method: summaryApi.deleteCartProduct.method,
-    //         credentials: 'include',
-    //         headers: {
-    //             'content-type': "application/json"
-    //         },
-    //         body: JSON.stringify({
-    //             _id: id,
-    //         })
-    //     })
-    //     const responseData = await response.json()
-    //     if (responseData.success) {
-    //         fetchData()
-    //         context.fetchUserAddToCart()
-    //     }
-    // }
-
     const deleteCartProduct = async (id) => {
         try {
             const response = await fetch(summaryApi.deleteCartProduct.url, {
@@ -120,6 +102,18 @@ const Cart = () => {
         }
     }
 
+    const handlePayment = async () => {
+        const response = await fetch(summaryApi.payment.url, {
+            method: summaryApi.payment.method,
+            credentials: "include",
+            headers: {
+                'content-type': "application/json"
+            },
+            body: JSON.stringify({cartItems : data})
+        })
+        const responseData = await response.json();
+        console.log("Payment Response", responseData)
+    }
 
     const totalQuantity = data.reduce((prev, curr) => prev + curr?.quantity, 0)
     const totalPrice = data.reduce((prev, curr) => prev + (curr?.quantity * curr?.productId?.sellingPrice), 0)
@@ -147,7 +141,7 @@ const Cart = () => {
                         ) : (
                             data.map((product, index) => {
                                 return (
-                                    <div key={product?._id + "add to cart product"+ index} className='w-full bg-white h-32 my-2 border border-slate-300 grid grid-cols-[128px_1fr]'>
+                                    <div key={product?._id + "add to cart product" + index} className='w-full bg-white h-32 my-2 border border-slate-300 grid grid-cols-[128px_1fr]'>
                                         <div className='w-32 h-32 bg-slate-200'>
                                             <img src={product?.productId?.productImage[0]} className="w-full h-full object-scale-down mix-blend-multiply" />
                                         </div>
@@ -179,28 +173,33 @@ const Cart = () => {
                 </div>
 
                 {/* summary product */}
-                <div className='mt-5 lg:mt-0 w-full max-w-sm'>
-                    {
-                        loading ? (
-                            <div className='h-36 bg-slate-200 border border-slate-300 animate-pulse'>
-                                Total
-                            </div>
-                        ) : (
-                            <div className='h-36 bg-white'>
-                                <h2 className='bg-black text-white py-2 px-4'>Summary</h2>
-                                <div className='flex items-center justify-between px-4 gap-2 text-lg'>
-                                    <p>Quantity</p>
-                                    <p>{totalQuantity}</p>
-                                </div>
-                                <div className='flex items-center justify-between px-4 gap-2 text-lg'>
-                                    <p>Total Price :</p>
-                                    <p>{displayINRCurrency(totalPrice)}</p>
-                                </div>
-                                <button className='bg-black px-2 py-2 text-white w-full '>Payment</button>
-                            </div>
-                        )
-                    }
-                </div>
+                {
+                    data[0] && (
+                        <div className='mt-5 lg:mt-0 w-full max-w-sm'>
+                            {
+                                loading ? (
+                                    <div className='h-36 bg-slate-200 border border-slate-300 animate-pulse'>
+                                        Total
+                                    </div>
+                                ) : (
+                                    <div className='h-36 bg-white'>
+                                        <h2 className='bg-black text-white py-2 px-4'>Summary</h2>
+                                        <div className='flex items-center justify-between px-4 gap-2 text-lg'>
+                                            <p>Quantity</p>
+                                            <p>{totalQuantity}</p>
+                                        </div>
+                                        <div className='flex items-center justify-between px-4 gap-2 text-lg'>
+                                            <p>Total Price :</p>
+                                            <p>{displayINRCurrency(totalPrice)}</p>
+                                        </div>
+                                        <button className='bg-black px-2 py-2 text-white w-full' onClick={handlePayment}>Payment</button>
+                                    </div>
+                                )
+                            }
+                        </div>
+                    )
+                }
+
             </div>
         </div>
     )

@@ -64,20 +64,23 @@ const summaryApi = {
     updateCartProduct: {
         url: `${backendDomain}/api/update-cart-product`,
         method: 'post'
-    }, 
-    deleteCartProduct:{
+    },
+    deleteCartProduct: {
         url: `${backendDomain}/api/delete-cart-product`,
         method: 'post'
     },
     searchProduct: {
         url: `${backendDomain}/api/search`,
-        method:'get'
-    }, 
-    filterProduct : {
+        method: 'get'
+    },
+    filterProduct: {
         url: `${backendDomain}/api/filter-product`,
         method: 'post'
+    },
+    payment: {
+        url: `${backendDomain}/api/checkout`,
+        method: 'post'
     }
-
 }
 
 export default summaryApi;
