@@ -2,6 +2,7 @@
 
 A full-stack MERN e-commerce application built with React, Node.js, Express.js, and MongoDB. The platform provides a seamless shopping experience with secure authentication, product browsing, cart management, and order processing capabilities.
 
+---
 
 ## 🚀 Features
 
@@ -16,6 +17,7 @@ A full-stack MERN e-commerce application built with React, Node.js, Express.js, 
 * Protected Routes
 * Toast Notifications for User Feedback
 
+---
 
 ## 🛠 Tech Stack
 
@@ -50,10 +52,11 @@ A full-stack MERN e-commerce application built with React, Node.js, Express.js, 
 * Nodemon
 * Prettier
 
-
+---
 
 ## 📂 Project Structure
 
+```text
 just-shop/
 │
 ├── frontend/
@@ -72,70 +75,92 @@ just-shop/
 │   └── package.json
 │
 └── README.md
+```
 
+---
 
 ## ⚙️ Installation
 
 ### Clone Repository
 
+```bash
 git clone https://github.com/AnsariSadaan/just-shop.git
 
 cd just-shop
+```
 
-
+---
 
 ## Backend Setup
 
 Navigate to backend directory:
 
+```bash
 cd backend
-
+```
 
 Install dependencies:
 
+```bash
 npm install
+```
 
 Create a `.env` file inside backend directory:
 
+```env
 PORT=5000
 MONGO_URI=your_mongodb_connection_string
 JWT_SECRET=your_secret_key
 CLIENT_URL=http://localhost:5173
+```
 
 Run backend server:
 
+```bash
 npm run dev
+```
 
 Backend will run on:
 
+```text
 http://localhost:5000
+```
 
+---
 
 ## Frontend Setup
 
 Open a new terminal and navigate to frontend directory:
 
-
+```bash
 cd frontend
-
+```
 
 Install dependencies:
 
-
+```bash
 npm install
+```
 
 Create `.env` file if required:
 
+```env
 VITE_API_URL=http://localhost:5000/api
+```
 
 Start frontend server:
 
+```bash
 npm run dev
+```
 
 Frontend will run on:
 
+```text
 http://localhost:5173
+```
 
+---
 
 ## API Features
 
@@ -161,6 +186,7 @@ http://localhost:5173
 * View Profile
 * Update User Information
 
+---
 
 ## Future Improvements
 
@@ -174,6 +200,7 @@ http://localhost:5173
 * Email Notifications
 * Product Recommendations
 
+---
 
 ## Author
 
@@ -185,12 +212,14 @@ GitHub:
 https://github.com/AnsariSadaan
 
 LinkedIn:
-https://www.linkedin.com/in/sadaan-ansari-82a191214/
+Add your LinkedIn profile here
 
-
+---
 
 ## License
 
 This project is licensed under the MIT License.
 
+⭐ Support
+If you found this project useful, please consider giving it a star on GitHub.
 For contributions, issues, or feature requests, feel free to open an issue or create a pull request.
