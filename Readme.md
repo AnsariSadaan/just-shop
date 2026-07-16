@@ -192,3 +192,5 @@ https://www.linkedin.com/in/sadaan-ansari-82a191214/
 ## License
 
 This project is licensed under the MIT License.
+
+For contributions, issues, or feature requests, feel free to open an issue or create a pull request.
